@@ -31,9 +31,35 @@ in {
         Directory to serve with WebDAV.
       '';
     };
+
+    user = mkOption {
+      type = types.str;
+      default = "mydav";
+      description = ''
+        User account under which the service runs.
+      '';
+    };
+
+    group = mkOption {
+      type = types.str;
+      default = "mydav";
+      description = ''
+        Group under which the service runs.
+      '';
+    };
   };
 
   config = mkIf cfg.enable {
+    users = {
+      users."${cfg.user}" = {
+        inherit (cfg) group;
+        description = "WebDAV user";
+        isSystemUser = true;
+        createHome = false;
+      };
+      groups."${cfg.group}" = {};
+    };
+
     systemd.services.mydav = let
       configFile = pkgs.writeText "mydav-config.json" (builtins.toJSON {
         inherit (cfg) ip port path;
@@ -49,8 +75,10 @@ in {
         Restart = "on-failure";
         RestartSec = 10;
 
+        User = cfg.user;
+        Group = cfg.group;
+
         # hardening
-        DynamicUser = true;
         DevicePolicy = "closed";
         CapabilityBoundingSet = "";
         RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
