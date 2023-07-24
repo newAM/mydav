@@ -4,10 +4,14 @@
 
     crane.url = "github:ipetkov/crane";
     crane.inputs.nixpkgs.follows = "nixpkgs";
+
+    advisory-db.url = "github:rustsec/advisory-db";
+    advisory-db.flake = false;
   };
 
   outputs = {
     self,
+    advisory-db,
     nixpkgs,
     crane,
   }: let
@@ -33,6 +37,10 @@
       nixSrc = nixpkgs.lib.sources.sourceFilesBySuffices self [".nix"];
     in {
       pkg = self.packages.x86_64-linux.default;
+
+      audit = craneLib.cargoAudit {
+        inherit src advisory-db;
+      };
 
       clippy = craneLib.cargoClippy {
         inherit cargoArtifacts src;
