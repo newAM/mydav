@@ -1,4 +1,5 @@
 use anyhow::Context;
+use dav_server::{localfs::LocalFs, memls::MemLs, DavHandler};
 use serde::Deserialize;
 use std::{
     ffi::OsString,
@@ -60,7 +61,15 @@ async fn main() -> anyhow::Result<()> {
     log::info!("listening on {addr}");
     log::info!("serving {}", davpath.to_string_lossy());
 
-    let routes = dav_server::warp::dav_dir(davpath, true, true);
+    const PUBLIC: bool = false;
+    const CASE_INSENSITIVE: bool = false;
+    const MACOS: bool = false;
+    let handler: DavHandler = DavHandler::builder()
+        .filesystem(LocalFs::new(davpath, PUBLIC, CASE_INSENSITIVE, MACOS))
+        .locksystem(MemLs::new())
+        .build_handler();
+    let routes = dav_server::warp::dav_handler(handler);
+
     let (_addr, fut) = warp::serve(routes)
         .try_bind_with_graceful_shutdown(addr, async move {
             tokio::signal::ctrl_c()
