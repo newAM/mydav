@@ -38,7 +38,10 @@ async fn main() -> anyhow::Result<()> {
         }
     };
 
-    systemd_journal_logger::JournalLog::new().context("Failed to initialize logging")?;
+    systemd_journal_logger::JournalLog::new()
+        .context("Failed to create logger")?
+        .install()
+        .context("Failed to install logger")?;
     log::set_max_level(log::LevelFilter::Trace);
 
     log::debug!("Hello world");
