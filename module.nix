@@ -66,6 +66,7 @@ in {
       });
     in {
       wantedBy = ["multi-user.target"];
+      wants = ["network-online.target"];
       after = ["network-online.target"];
       description = "My WebDAV server";
       serviceConfig = {
