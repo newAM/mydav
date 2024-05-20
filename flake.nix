@@ -16,7 +16,7 @@
     crane,
   }: let
     pkgs = nixpkgs.legacyPackages.x86_64-linux;
-    craneLib = crane.lib.x86_64-linux;
+    craneLib = crane.mkLib pkgs;
 
     src = craneLib.cleanCargoSource self;
 
