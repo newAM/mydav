@@ -7,7 +7,7 @@ repository = "https://github.com/newam/mydav"
 
 [dependencies]
 anyhow = "1.0.72"
-dav-server = { version = "0.6.0", features = ["warp-compat"] }
+dav-server = { version = "0.7.0", features = ["warp-compat"] }
 log = { version = "0.4.19", features = ["release_max_level_debug"] }
 serde = { version = "1.0.175", features = ["derive"] }
 serde_json = "1.0.103"
