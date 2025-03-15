@@ -1,5 +1,5 @@
 use anyhow::Context;
-use dav_server::{localfs::LocalFs, memls::MemLs, DavHandler};
+use dav_server::{DavHandler, localfs::LocalFs, memls::MemLs};
 use serde::Deserialize;
 use std::{
     ffi::OsString,
