@@ -1,5 +1,6 @@
 [package]
 name = "mydav"
+description = "My WebDAV server"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
