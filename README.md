@@ -1,5 +1,7 @@
 # mydav
 
+**Archived 2026-01-10:** I recommend the now maintained go implementation.
+
 I was looking for a WebDAV server, but at the time of writing (2023-07-24) I
 found:
 
