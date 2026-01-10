@@ -32,7 +32,7 @@ distributions.
 
     mydav.url = "github:newam/mydav";
     mydav.inputs.nixpkgs.follows = "nixpkgs";
-    dp800.inputs.treefmt.follows = "";
+    mydav.inputs.treefmt.follows = "";
   };
 }
 ```
